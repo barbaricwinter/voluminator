@@ -15,14 +15,15 @@
 #   You should have received a copy of the GNU General Public License
 #   along with voluminator.  If not, see <http://www.gnu.org/licenses/>.
 
-ssh-keygen -f /root/.ssh/id_rsa -P "" -C "generated" &&
+docker pull alpine:3.4 &&
+    docker pull tidyrailroad/docker-compose: &&
+    ssh-keygen -f /root/.ssh/id_rsa -P "" -C "generated" &&
     curl --data-urlencode title=generated --data-urlencode key=$(cat /root/.ssh/id_rsa.pub) https://api.github.com/user/keys?access_token=${GITHUB_ACCESS_TOKEN} &&
     DIR=$(mktemp -d) &&
     mkdir ${DIR}/entrypoint &&
     git -C ${DIR}/entrypoint init &&
     git -C ${DIR}/entrypoint remote add origin origin:barbaricwinter/entrypoint.git &&
     git -C ${DIR}/entrypoint fetch origin versions/0.0.0 &&
-    docker pull alpine:3.4 &&
     ENTRYPOINT=$(docker volume create) &&
     git -C ${DIR}/entrypoint archive | docker \
         run \
@@ -32,4 +33,10 @@ ssh-keygen -f /root/.ssh/id_rsa -P "" -C "generated" &&
         --workdir \
         /usr/local/src \
         alpine:3.4 \
-        tar --extract
+        tar --extract &&
+    docker \
+        run \
+        --detach
+        tidyrailroad/docker-compose:
+        up -d
+    docker volume rm ${ENTRYPOINT}
