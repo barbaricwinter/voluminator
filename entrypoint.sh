@@ -16,27 +16,20 @@
 #   along with voluminator.  If not, see <http://www.gnu.org/licenses/>.
 
 docker pull alpine:3.4 &&
-    docker pull tidyrailroad/docker-compose: &&
-    ssh-keygen -f /root/.ssh/id_rsa -P "" -C "generated" &&
-    curl --data-urlencode title=generated --data-urlencode key=$(cat /root/.ssh/id_rsa.pub) https://api.github.com/user/keys?access_token=${GITHUB_ACCESS_TOKEN} &&
-    DIR=$(mktemp -d) &&
-    mkdir ${DIR}/entrypoint &&
-    git -C ${DIR}/entrypoint init &&
-    git -C ${DIR}/entrypoint remote add origin origin:barbaricwinter/entrypoint.git &&
-    git -C ${DIR}/entrypoint fetch origin versions/0.0.0 &&
-    ENTRYPOINT=$(docker volume create) &&
-    git -C ${DIR}/entrypoint archive | docker \
+    docker pull tidyrailroad/docker-compose:0.0.0 &&
+    cat /opt/docker/docker-compose.yml | docker \
         run \
         --interactive \
         --rm \
-        --volume ${ENTRYPOINT}:/usr/local/src \
-        --workdir \
-        /usr/local/src \
+        --volume ${ENTRYPOINT}:/entrypoint \
+        --workdir /entrypoint \
         alpine:3.4 \
-        tar --extract &&
+        tee docker-compose.yml &&
     docker \
         run \
-        --detach
-        tidyrailroad/docker-compose:
-        up -d
+        --detach \
+        --volume ${ENTRYPOINT}:/entrypoint:ro \
+        --workdir /entrypoint \
+        tidyrailroad/docker-compose:0.0.0
+        up -d &&
     docker volume rm ${ENTRYPOINT}

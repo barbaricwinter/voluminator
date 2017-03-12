@@ -14,7 +14,7 @@
 #   You should have received a copy of the GNU General Public License
 #   along with voluminator.  If not, see <http://www.gnu.org/licenses/>.
 FROM alpine:3.4
-COPY run.sh entrypoint.sh config known_hosts /opt/docker/
+COPY run.sh entrypoint.sh docker-compose.yml /opt/docker/
 RUN ["/bin/sh", "/opt/docker/run.sh"]
 ENTRYPOINT ["/bin/sh", "/opt/docker/entrypoint.sh"]
 CMD []
