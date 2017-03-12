@@ -1,0 +1,20 @@
+version: "3"
+services:
+  browser:
+    image: docker.io/sassmann/debian-chromium
+    environment:
+      DISPLAY:
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "/run/user/${HOST_UID}/pulse/native:/tmp/pulse"
+      - "/tmp/.X11-unix:/tmp/.X11-unix:ro"
+  deciphernow:
+    image: tidyrailroad/cloud9:5.3.0
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    command: --listen 0.0.0.0 --auth user:password -w /root/deciphernow
+  object-drive-ui:
+    image: tidyrailroad/cloud9:5.3.0
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    command: --listen 0.0.0.0 --auth user:password -w /root/object-drive-ui
