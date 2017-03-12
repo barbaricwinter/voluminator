@@ -32,5 +32,4 @@ docker pull alpine:3.4 &&
         --volume ${ENTRYPOINT}:/entrypoint:ro \
         --workdir /entrypoint \
         tidyrailroad/docker-compose:0.0.0 \
-        up -d &&
-    docker volume rm ${ENTRYPOINT}
+        up -d
