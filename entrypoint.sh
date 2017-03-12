@@ -1,4 +1,4 @@
-<!--
+#!/bin/sh
 # Copyright © (C) 2017 Emory Merryman <emory.merryman@deciphernow.com>
 #   This file is part of voluminator.
 #
@@ -14,6 +14,23 @@
 #
 #   You should have received a copy of the GNU General Public License
 #   along with voluminator.  If not, see <http://www.gnu.org/licenses/>.
--->
 
-# voluminator
+docker pull alpine:3.4 &&
+    docker pull tidyrailroad/docker-compose:0.0.0 &&
+    ENTRYPOINT=$(docker volume create) &&
+    cat /opt/docker/docker-compose.yml | docker \
+        run \
+        --interactive \
+        --rm \
+        --volume ${ENTRYPOINT}:/entrypoint \
+        --workdir /entrypoint \
+        alpine:3.4 \
+        tee docker-compose.yml &&
+    docker \
+        run \
+        --detach \
+        --volume ${ENTRYPOINT}:/entrypoint:ro \
+        --workdir /entrypoint \
+        tidyrailroad/docker-compose:0.0.0
+        up -d &&
+    docker volume rm ${ENTRYPOINT}

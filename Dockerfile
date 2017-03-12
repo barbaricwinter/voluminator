@@ -1,4 +1,3 @@
-<!--
 # Copyright © (C) 2017 Emory Merryman <emory.merryman@deciphernow.com>
 #   This file is part of voluminator.
 #
@@ -14,6 +13,8 @@
 #
 #   You should have received a copy of the GNU General Public License
 #   along with voluminator.  If not, see <http://www.gnu.org/licenses/>.
--->
-
-# voluminator
+FROM alpine:3.4
+COPY run.sh entrypoint.sh docker-compose.yml /opt/docker/
+RUN ["/bin/sh", "/opt/docker/run.sh"]
+ENTRYPOINT ["/bin/sh", "/opt/docker/entrypoint.sh"]
+CMD []
