@@ -17,6 +17,7 @@
 
 docker pull alpine:3.4 &&
     docker pull tidyrailroad/docker-compose:0.0.0 &&
+    ENTRYPOINT=$(docker volume create) &&
     cat /opt/docker/docker-compose.yml | docker \
         run \
         --interactive \
