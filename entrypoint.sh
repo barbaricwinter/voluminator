@@ -28,9 +28,7 @@ docker pull alpine:3.4 &&
         tee docker-compose.yml &&
     docker \
         run \
-        --interactive \
-        --tty \
-        --rm \
+        --detach \
         --env DISPLAY \
         --env HOST_UID \
         --volume /var/run/docker.sock:/var/run/docker.sock \
