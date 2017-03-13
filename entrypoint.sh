@@ -29,7 +29,10 @@ docker pull alpine:3.4 &&
     docker \
         run \
         --detach \
+        --env DISPLAY \
+        --env HOST_UID \
+        --volume /var/run/docker.sock:/var/run/docker.sock \
         --volume ${ENTRYPOINT}:/entrypoint:ro \
         --workdir /entrypoint \
-        tidyrailroad/docker-compose:0.0.0 \
+        tidyrailroad/docker-compose:0.0.1 \
         up -d
