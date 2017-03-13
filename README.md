@@ -17,3 +17,31 @@
 -->
 
 # voluminator
+
+## Usage
+
+### Host
+
+```
+docker \
+	run \
+	--interactive \
+	--tty \
+	--rm \
+	--volume /var/run/docker.sock:/var/run/docker.sock:ro \
+	--env HOST_UID=${UID} \
+	--env DISPLAY barbaricwinter/voluminator:0.0.4
+ ```
+ 
+ ### Container
+ 
+```
+docker \
+	run \
+	--interactive \
+	--tty \
+	--rm \
+	--volume /var/run/docker.sock:/var/run/docker.sock:ro \
+	--env HOST_UID \
+	--env DISPLAY barbaricwinter/voluminator:0.0.4
+ ```
